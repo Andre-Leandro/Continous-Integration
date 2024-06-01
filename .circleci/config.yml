@@ -31,7 +31,7 @@ jobs:
             echo "Deployment successful"
           else
             echo "Deployment failed with HTTP status code $response"
-            url -X POST -H 'Content-type: application/json' --data '{"text":"MAL DEPLOY!"}' $SLACK_WEBHOOK_URL
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"MAL DEPLOY!"}' $SLACK_WEBHOOK_URL
             exit 1
           fi
       - run:
