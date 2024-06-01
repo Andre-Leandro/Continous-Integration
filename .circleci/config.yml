@@ -12,6 +12,10 @@ jobs:
       - run:
           name: Ejecutar pruebas
           command: npx mocha test/test.js
+      - run:    
+          name: Notificar a Slack 
+          command: |
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Locura hermosa"}' $SLACK_WEBHOOK_URL
 
   deploy:
     docker:
@@ -28,7 +32,7 @@ jobs:
       - run:
           name: Notificar a Slack
           command: |
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' $SLACK_WEBHOOK_URL
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello,  Mensaje bueno World!"}' $SLACK_WEBHOOK_URL
 
 workflows:
   version: 2
