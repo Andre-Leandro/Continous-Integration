@@ -28,8 +28,7 @@ jobs:
       - run:
           name: Notificar a Slack
           command: |
-            curl -X POST -H 'Content-type: application/json' \
-            --data '{"text":"Despliegue exitoso!"}' \
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' 
             $SLACK_WEBHOOK_URL
 
 workflows:
