@@ -30,7 +30,7 @@ jobs:
           command: |
             curl -X POST -H 'Content-type: application/json' \
             --data '{"text":"Despliegue exitoso!"}' \
-            $SLACK_WEBHOOK_URL
+            https://hooks.slack.com/services/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
 
 workflows:
   version: 2
