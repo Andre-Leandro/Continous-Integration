@@ -22,13 +22,17 @@ jobs:
       - image: circleci/node:14.17
     steps:
       - checkout
-      - run:
-          name: Desplegar en Render
-          command: |
-            curl -X POST https://api.render.com/deploy \
-            -H 'Authorization: Bearer $RENDER_API_KEY' \
-            -H 'Content-Type: application/json' \
-            -d '{"serviceId": "your-service-id"}'
+      - run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X POST https://api.render.com/deploy \
+          -H "Authorization: Bearer $RENDER_API_KEY" \
+          -H "Content-Type: application/json" \
+          -d '{"serviceId": "your-service-id"}')
+          if [ $response -eq 200 ]; then
+            echo "Deployment successful"
+          else
+            echo "Deployment failed with HTTP status code $response"
+            exit 1
+          fi
       - run:
           name: Notificar a Slack
           command: |
