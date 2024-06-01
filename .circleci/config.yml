@@ -23,14 +23,15 @@ jobs:
     steps:
       - checkout
       - run: |
-        response=$(curl -s -o /dev/null -w "%{http_code}" -X POST https://api.render.com/deploy/srv-cpdr55n109ks73em4ecg?key=0m-6SGBdA7I)
-        if [ $response -eq 200 ]; then
-          echo "Deployment successful"
-        else
-          echo "Deployment failed with HTTP status code $response"
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"MAL DEPLOY!"}' $SLACK_WEBHOOK_URL
-          exit 1
-        fi
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X POST https://api.render.com/deploy/srv-cpdr55n109ks73em4ecg?key=0m-6SGBdA7I \
+          -H "Authorization: Bearer $RENDER_API_KEY" \
+          if [ $response -eq 200 ]; then
+            echo "Deployment successful"
+          else
+            echo "Deployment failed with HTTP status code $response"
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"MAL DEPLOY!"}' $SLACK_WEBHOOK_URL
+            exit 1
+          fi
       - run:
           name: Notificar a Slack
           command: |
