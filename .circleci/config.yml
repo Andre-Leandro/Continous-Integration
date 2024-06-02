@@ -23,7 +23,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          response=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://api.render.com/deploy/srv-cpdr55n109ks73em4ecg?key=0m-6SGBdA7I")
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://appi.render.com/deploy/srv-cpdr55n109ks73em4ecg?key=0m-6SGBdA7I")
           if [ $response -eq 200 ]; then
             echo "Deployment successful"
           else
