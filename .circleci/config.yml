@@ -15,7 +15,7 @@ jobs:
       - run:    
           name: Notificar a Slack 
           command: |
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"Locura hermosa"}' $SLACK_WEBHOOK_URL
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Test pasados con éxito."}' $SLACK_WEBHOOK_URL
 
   deploy:
     docker:
@@ -26,15 +26,12 @@ jobs:
           response=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://api.render.com/deploy/srv-cpdr55n109ks73em4ecg?key=0m-6SGBdA7I")
           if [ $response -eq 200 ]; then
             echo "Deployment successful"
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Deploy exitoso."}' $SLACK_WEBHOOK_URL
           else
             echo "Deployment failed with HTTP status code $response"
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"MAL DEPLOY!"}' "$SLACK_WEBHOOK_URL"
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"¡Ha fallado el Deploy!"}' "$SLACK_WEBHOOK_URL"
             exit 1
           fi
-      - run:
-          name: Notificar a Slack
-          command: |
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello,  Mensaje bueno World!"}' $SLACK_WEBHOOK_URL
 
 workflows:
   version: 2
