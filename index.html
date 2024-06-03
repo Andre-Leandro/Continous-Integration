@@ -3,39 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suma de Números Reales</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            text-align: center;
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        input {
-            padding: 10px;
-            margin: 5px;
-            font-size: 16px;
-            width: 80px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        p {
-            font-size: 18px;
-            color: #333;
-        }
-    </style>
+    <title>Suma de Números </title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -47,27 +16,6 @@
         <p id="resultado"></p>
     </div>
 
-    <script>
-        function sumar() {
-            // Obtiene los valores de los campos de entrada
-            var num1 = document.getElementById('num1').value;
-            var num2 = document.getElementById('num2').value;
-
-            // Convierte los valores a números
-            num1 = parseFloat(num1);
-            num2 = parseFloat(num2);
-
-            // Verifica que los valores sean números
-            if (isNaN(num1) || isNaN(num2)) {
-                document.getElementById('resultado').innerText = 'Por favor, ingrese dos números válidos.';
-            } else {
-                // Suma los dos números
-                var suma = num1 + num2;
-
-                // Muestra el resultado
-                document.getElementById('resultado').innerText = 'La suma es: ' + suma;
-            }
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
