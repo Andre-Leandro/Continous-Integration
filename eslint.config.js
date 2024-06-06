@@ -1,7 +1,4 @@
-import jsConfig from '@eslint/js';
-
 export default [
-  jsConfig.configs.recommended,
   {
     files: ['**/*.js'],
     languageOptions: {
