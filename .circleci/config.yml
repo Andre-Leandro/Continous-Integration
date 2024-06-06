@@ -3,14 +3,14 @@ version: 2.1
 jobs:
   lint:
     docker:
-      - image: circleci/node:18.20
+      - image: circleci/node:18
     steps:
       - checkout
       - run: npm install
       - run: npm run lint
   test:
     docker:
-      - image: circleci/node:18.20
+      - image: circleci/node:18
     steps:
       - checkout
       - run:
