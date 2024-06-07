@@ -25,42 +25,46 @@ jobs:
           command: npx mocha test/test.js
       - slack/notify:
           channel: general
-          event: pass
+          event: always
           template: basic_success
-          custom: |
-            {
-                  "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "TEST EXITOSO :white_check_mark:"
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Usuario:*\n$CIRCLE_USERNAME"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Repositorio:*\n$CIRCLE_PROJECT_REPONAME"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Commit:*\n$CIRCLE_SHA1"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch:*\n$CIRCLE_BRANCH"
-                    }
-                  ]
-                }
-              ]
+      custom: |
+      {
+        "blocks": [
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "$MESSAGE"
             }
-        
+          },
+          {
+            "type": "section",
+            "fields": [
+              {
+                "type": "mrkdwn",
+                "text": "*Usuario:*\n$CIRCLE_USERNAME"
+              },
+              {
+                "type": "mrkdwn",
+                "text": "*Repositorio:*\n$CIRCLE_PROJECT_REPONAME"
+              },
+              {
+                "type": "mrkdwn",
+                "text": "*Commit:*\n$CIRCLE_SHA1"
+              },
+              {
+                "type": "mrkdwn",
+                "text": "*Branch:*\n$CIRCLE_BRANCH"
+              }
+            ]
+          }
+        ]
+      }
+    when:
+      - condition: $CIRCLE_JOB == "success"
+        message: "TEST EXITOSO :white_check_mark:"
+      - condition: $CIRCLE_JOB == "failure"
+        message: "FALLO EL DEPLOY :x:"
      
 
   deploy:
