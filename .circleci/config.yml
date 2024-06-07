@@ -27,7 +27,7 @@ jobs:
       - run:
           name: Load Slack Message
           command: |
-            export SLACK_MESSAGE=$(cat success_test.json | jq -c .)
+            export SLACK_MESSAGE=$(cat success_test.json)
 
       - slack/notify:
           channel: general
