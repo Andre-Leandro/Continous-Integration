@@ -4,11 +4,15 @@
     "type": "module",
     "scripts": {
         "test": "mocha",
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "lint:html": "htmlhint ./*.html"
     },
     "dependencies": {
         "chai": "^4.3.4",
         "eslint": "^9.4.0",
         "mocha": "^9.1.3"
+    },
+    "devDependencies": {
+        "htmlhint": "^1.1.4"
     }
 }
