@@ -1,0 +1,32 @@
+{
+    "blocks": [
+  {
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": "TEST EXITOSO :white_check_mark:"
+    }
+  },
+  {
+    "type": "section",
+    "fields": [
+      {
+        "type": "mrkdwn",
+        "text": "*Usuario:*\n$CIRCLE_USERNAME"
+      },
+      {
+        "type": "mrkdwn",
+        "text": "*Repositorio:*\n$CIRCLE_PROJECT_REPONAME"
+      },
+      {
+        "type": "mrkdwn",
+        "text": "*Commit:*\n$CIRCLE_SHA1"
+      },
+      {
+        "type": "mrkdwn",
+        "text": "*Branch:*\n$CIRCLE_BRANCH"
+      }
+    ]
+  }
+]
+}
