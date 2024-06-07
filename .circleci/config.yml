@@ -25,7 +25,7 @@ jobs:
           command: npx mocha test/test.js
       - slack/notify:
           channel: general
-          event: success
+          event: pass
           template: basic_fail_1
      
 
