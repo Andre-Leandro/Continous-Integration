@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  slack: circleci/slack@4.3.2
+
 jobs:
   lint:
     docker:
@@ -9,6 +12,7 @@ jobs:
       - run: npm install
       - run: npm run lint
       - run: npm run lint:html
+
   test:
     docker:
       - image: cimg/node:18.20.3
@@ -20,10 +24,6 @@ jobs:
       - run:
           name: Ejecutar pruebas
           command: npx mocha test/test.js
-      - run:    
-          name: Notificar a Slack 
-          command: |
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"Test pasados con éxito."}' $SLACK_WEBHOOK_URL
 
   deploy:
     docker:
@@ -61,3 +61,37 @@ workflows:
           filters:
             branches:
               only: main
+      - slack/notify:
+          name: Slack Notify Tests
+          requires:
+            - test
+          template: basic_success
+          custom:
+            attachments:
+              - pretext: "Tests completados con éxito"
+                text: >
+                  *Commit*: `${CIRCLE_SHA1}`
+                  *Author*: `${CIRCLE_USERNAME}`
+                  *Commit Message*: `${CIRCLE_COMPARE_URL}`
+                color: "#36a64f"
+                fields:
+                  - title: "Build Details"
+                    value: "View details [here](${CIRCLE_BUILD_URL})"
+                    short: false
+      - slack/notify:
+          name: Slack Notify Deploy
+          requires:
+            - deploy
+          template: basic_success
+          custom:
+            attachments:
+              - pretext: "Deploy completado con éxito"
+                text: >
+                  *Commit*: `${CIRCLE_SHA1}`
+                  *Author*: `${CIRCLE_USERNAME}`
+                  *Commit Message*: `${CIRCLE_COMPARE_URL}`
+                color: "#36a64f"
+                fields:
+                  - title: "Build Details"
+                    value: "View details [here](${CIRCLE_BUILD_URL})"
+                    short: false
