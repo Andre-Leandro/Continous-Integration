@@ -50,11 +50,11 @@ jobs:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Commit:*\n*CIRCLE_SHA1"
+                      "text": "*Commit:*\n$CIRCLE_SHA1"
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Branch:*\nCIRCLE_BRANCH"
+                      "text": "*Branch:*\n$CIRCLE_BRANCH"
                     }
                   ]
                 }
