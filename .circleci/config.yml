@@ -24,16 +24,42 @@ jobs:
           name: Ejecutar pruebas
           command: npx mocha test/test.js
 
-      - run:
-          name: Load Slack Message
-          command: |
-            export SLACK_MESSAGE=$(cat success_test.json)
-
       - slack/notify:
           channel: general
           event: pass
           template: basic_success
-          custom: $SLACK_MESSAGE
+          custom: {
+                "blocks": [
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "TEST EXITOSO :white_check_mark:"
+                    }
+                  },
+                  {
+                    "type": "section",
+                    "fields": [
+                      {
+                        "type": "mrkdwn",
+                        "text": "*Usuario:*\n$CIRCLE_USERNAME"
+                      },
+                      {
+                        "type": "mrkdwn",
+                        "text": "*Repositorio:*\n$CIRCLE_PROJECT_REPONAME"
+                      },
+                      {
+                        "type": "mrkdwn",
+                        "text": "*Commit:*\n$CIRCLE_SHA1"
+                      },
+                      {
+                        "type": "mrkdwn",
+                        "text": "*Branch:*\n$CIRCLE_BRANCH"
+                      }
+                    ]
+                  }
+                ]
+          }
 
         
   deploy:
