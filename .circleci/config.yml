@@ -29,11 +29,34 @@ jobs:
           template: basic_success
           custom: |
             {
-              "text": "Build Successful :white_check_mark:",
-              "attachments": [
+                  "blocks": [
                 {
-                  "title": "Commit Details",
-                  "text": "Commit by: $CIRCLE_USERNAME\nCommit message: $CIRCLE_JOB\nCommit hash: $CIRCLE_SHA1"
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "TEST EXITOSO :white_check_mark:"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Usuario:*\n$CIRCLE_USERNAME"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Repositorio:*\n$CIRCLE_PROJECT_REPONAME"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Commit:*\n*CIRCLE_SHA1"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\nCIRCLE_BRANCH"
+                    }
+                  ]
                 }
               ]
             }
