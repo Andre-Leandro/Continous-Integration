@@ -26,7 +26,18 @@ jobs:
       - slack/notify:
           channel: general
           event: pass
-          template: basic_fail_1
+          template: basic_success
+          custom: |
+            {
+              "text": "Build Successful :white_check_mark:",
+              "attachments": [
+                {
+                  "title": "Commit Details",
+                  "text": "Commit by: $CIRCLE_USERNAME\nCommit message: $CIRCLE_JOB\nCommit hash: $CIRCLE_SHA1"
+                }
+              ]
+            }
+        
      
 
   deploy:
