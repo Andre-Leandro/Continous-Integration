@@ -30,8 +30,6 @@ jobs:
             export SLACK_MESSAGE=$(cat success_test.json | jq -c .)
 
       - slack/notify:
-        
-      - slack/notify:
           channel: general
           event: pass
           template: basic_success
