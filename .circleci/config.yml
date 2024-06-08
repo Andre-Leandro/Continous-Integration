@@ -110,12 +110,6 @@ workflows:
           filters: 
             branches:
               only: main
-      - pepe: 
-          requires:
-            - sonarcloud
-          filters: 
-            branches:
-              only: main
         
       - deploy:
             requires:
