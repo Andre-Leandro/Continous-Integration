@@ -133,7 +133,7 @@ workflows:
             branches:
               only: main
       - pepe: 
-         requires:
+          requires:
             - sonarcloud
           filters: 
             branches:
