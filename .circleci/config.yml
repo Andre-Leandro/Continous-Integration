@@ -63,7 +63,7 @@ jobs:
 
   sonarcloud:
     docker:
-      - image: sonarsource/sonar-scanner-cli:4.6
+      - image: sonarsource/sonar-scanner-cli:10
     steps:
       - checkout
       - run:
@@ -86,16 +86,14 @@ jobs:
               echo "Quality gate failed"
               exit 1
             fi
-      - run:
-          name: Instalar jq y curl
-          command: |
-            apk update && apk add jq curl
+      
+  pepe:
+    docker:
+      - image: cimg/node:18.20.3
       - slack/notify:
           channel: general
           event: fail
           template: basic_success
- 
-     
 
   deploy:
     docker:
@@ -131,6 +129,12 @@ workflows:
       - sonarcloud:
           requires:
             - test
+          filters: 
+            branches:
+              only: main
+      - pepe: 
+         requires:
+            - sonarcloud
           filters: 
             branches:
               only: main
