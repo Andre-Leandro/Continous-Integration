@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   slack: circleci/slack@4.3.2
+  sonarcloud: sonarsource/sonarcloud@2.0.0
 
 jobs:
   lint:
@@ -60,41 +61,17 @@ jobs:
                 }
               ]
             }
-
+      
   sonarcloud:
     docker:
-      - image: sonarsource/sonar-scanner-cli:10
+      - image: node:latest
     steps:
       - checkout
-      - run:
-          name: Instalar jq
-          command: apk add --no-cache jq curl
-      - run:
-          name: Ejecutar análisis de SonarCloud
-          command: |
-            sonar-scanner \
-              -Dsonar.projectKey=your_project_key \
-              -Dsonar.organization=your_organization_key \
-              -Dsonar.host.url=https://sonarcloud.io \
-             -Dsonar.login=$SONAR_TOKEN
-      - run:
-          name: Comprobar Quality Gate
-          command: |
-            status=$(curl -s -u $SONAR_TOKEN: "https://sonarcloud.io/api/qualitygates/project_status?projectKey=your_project_key" | jq -r .projectStatus.status)
-            if [ "$status" != "OK" ]; then
-              echo "Quality gate failed"
-              exit 1
-            fi
-      
-  pepe:
-    docker:
-      - image: cimg/node:18.20.3
-    steps:
-      - checkout
+      - sonarcloud/scan
       - slack/notify:
-          channel: general
-          event: always
-          template: basic_fail
+        channel: general
+        event: pass
+        template: basic_success
 
   deploy:
     docker:
