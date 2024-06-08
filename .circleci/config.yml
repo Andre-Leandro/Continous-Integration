@@ -68,11 +68,7 @@ jobs:
     steps:
       - checkout
       - sonarcloud/scan
-      - slack/notify:
-        channel: general
-        event: pass
-        template: basic_success
-
+     
   deploy:
     docker:
       - image: cimg/node:18.20.3
