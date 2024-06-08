@@ -63,7 +63,7 @@ jobs:
 
   sonarcloud:
     docker:
-      - image: cimg/node:18.20.3
+      - image: sonarsource/sonar-scanner-cli:4.6
     steps:
       - checkout
       - run:
