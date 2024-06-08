@@ -89,7 +89,8 @@ jobs:
       - slack/notify:
           channel: general
           event: fail
-          template: basic_fail   
+          template: basic_success
+ 
      
 
   deploy:
