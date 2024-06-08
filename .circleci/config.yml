@@ -86,6 +86,9 @@ jobs:
               echo "Quality gate failed"
               exit 1
             fi
+      - run:
+          name: Instalar jq
+          command: sudo apt-get update && sudo apt-get install -y jq
       - slack/notify:
           channel: general
           event: fail
