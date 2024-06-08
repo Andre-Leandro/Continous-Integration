@@ -87,8 +87,9 @@ jobs:
               exit 1
             fi
       - run:
-          name: Instalar jq
-          command: sudo apt-get update && sudo apt-get install -y jq
+          name: Instalar jq y curl
+          command: |
+            apk update && apk add jq curl
       - slack/notify:
           channel: general
           event: fail
