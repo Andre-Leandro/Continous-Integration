@@ -27,39 +27,41 @@ jobs:
           channel: general
           event: pass
           template: basic_success
-      custom: |
-      {
-        "blocks": [
-          {
-            "type": "section",
-            "text": {
-              "type": "mrkdwn",
-              "text": "Exitoooooo"
+          custom: |
+            {
+                  "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "TEST EXITOSO :white_check_mark:"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Usuario:*\n$CIRCLE_USERNAME"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Repositorio:*\n$CIRCLE_PROJECT_REPONAME"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Commit:*\n$CIRCLE_SHA1"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n$CIRCLE_BRANCH"
+                    }
+                  ]
+                }
+              ]
             }
-          },
-          {
-            "type": "section",
-            "fields": [
-              {
-                "type": "mrkdwn",
-                "text": "*Usuario:*\n$CIRCLE_USERNAME"
-              },
-              {
-                "type": "mrkdwn",
-                "text": "*Repositorio:*\n$CIRCLE_PROJECT_REPONAME"
-              },
-              {
-                "type": "mrkdwn",
-                "text": "*Commit:*\n$CIRCLE_SHA1"
-              },
-              {
-                "type": "mrkdwn",
-                "text": "*Branch:*\n$CIRCLE_BRANCH"
-              }
-            ]
-          }
-        ]
-      }
+        
+     
 
   deploy:
     docker:
@@ -93,3 +95,8 @@ workflows:
               only: main
       - deploy:
           requires:
+            requires:
+              - test
+            filters:
+              branches:
+                only: main
