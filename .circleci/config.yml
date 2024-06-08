@@ -90,10 +90,12 @@ jobs:
   pepe:
     docker:
       - image: cimg/node:18.20.3
+    steps:
+      - checkout
       - slack/notify:
           channel: general
-          event: fail
-          template: basic_success
+          event: always
+          template: basic_fail
 
   deploy:
     docker:
