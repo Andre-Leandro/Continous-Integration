@@ -25,7 +25,7 @@ jobs:
           command: npx mocha test/test.js
       - slack/notify:
           channel: general
-          event: always
+          event: pass
           template: basic_success
       custom: |
       {
@@ -34,7 +34,7 @@ jobs:
             "type": "section",
             "text": {
               "type": "mrkdwn",
-              "text": "$MESSAGE"
+              "text": "Exitoooooo"
             }
           },
           {
@@ -60,12 +60,6 @@ jobs:
           }
         ]
       }
-    when:
-      - condition: $CIRCLE_JOB == "success"
-        message: "TEST EXITOSO :white_check_mark:"
-      - condition: $CIRCLE_JOB == "failure"
-        message: "FALLO EL DEPLOY :x:"
-     
 
   deploy:
     docker:
