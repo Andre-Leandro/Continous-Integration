@@ -103,10 +103,7 @@ jobs:
             echo "Deployment completed successfully."
             curl -X POST -H 'Content-type: application/json' --data '{"text":"Deploy LUJOSO con éxito!"}' $SLACK_WEBHOOK_URL
 
-
-
-
-  test-production:
+  test-deploy:
     docker:
       - image: cypress/base
     steps:
@@ -121,12 +118,28 @@ jobs:
 workflows:
   version: 2
   build_and_deploy:
-    jobs:        
+    jobs:
+      - lint:
+          filters:
+            branches:
+              only: main
+      - test:
+          requires:
+            - lint
+          filters:
+            branches:
+              only: main
+      - sonarcloud:
+          requires:
+            - test
+          filters: 
+            branches:
+              only: main        
       - deploy:
             filters:
               branches:
                 only: main
-      - test-production:
+      - test-deploy:
             requires:
               - deploy
             filters:
