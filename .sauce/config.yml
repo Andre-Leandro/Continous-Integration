@@ -18,5 +18,5 @@ suites:
     config:
       platformName: Windows 10
       browserVersion: latest
-      testFiles: "cypress/*.spec.js"
-
+      testFiles:
+        - "cypress/*.spec.js"
