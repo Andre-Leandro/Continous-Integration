@@ -100,8 +100,6 @@ workflows:
   build_and_deploy:
     jobs:        
       - deploy:
-            requires:
-              - sonarcloud
             filters:
               branches:
                 only: main
