@@ -78,12 +78,33 @@ jobs:
           response=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://api.render.com/deploy/srv-cpdr55n109ks73em4ecg?key=0m-6SGBdA7I")
           if [ $response -eq 200 ]; then
             echo "Deployment successful"
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"Deploy exitoso."}' $SLACK_WEBHOOK_URL
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Deploy Iniciado."}' $SLACK_WEBHOOK_URL
           else
             echo "Deployment failed with HTTP status code $response"
             curl -X POST -H 'Content-type: application/json' --data '{"text":"¡Ha fallado el Deploy!"}' "$SLACK_WEBHOOK_URL"
             exit 1
           fi
+      - run:
+          name: Esperar a que el deploy se complete
+          command: |
+            deploy_status="pending"
+            while [ "$deploy_status" != "live" ]; do
+              response=$(curl -s -H "Authorization: Bearer $RENDER_API_KEY "https://api.render.com/v1/services/srv-cpdr55n109ks73em4ecg/deploys")
+              echo "Render API response: $response"
+              deploy_status=$(echo $response | jq -r '.[0].deploy.status') # Se toma el estado del primer despliegue en la lista
+              echo "Current deploy status: $deploy_status"
+              if [ "$deploy_status" == "failed" ]; then
+                echo "Deployment failed."
+                curl -X POST -H 'Content-type: application/json' --data '{"text":"¡El deploy ha fallado!"}' $SLACK_WEBHOOK_URL
+                exit 1
+              fi
+              sleep 10
+            done
+            echo "Deployment completed successfully."
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Deploy LUJOSO con éxito!"}' $SLACK_WEBHOOK_URL
+
+
+
 
   test-production:
     docker:
