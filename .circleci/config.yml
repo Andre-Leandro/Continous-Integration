@@ -93,8 +93,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: default
-      - saucectl/saucectl-run:
-          
+      - saucectl/saucectl-run
 
 workflows:
   version: 2
