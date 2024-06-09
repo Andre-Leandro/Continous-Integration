@@ -4,7 +4,7 @@ describe('Page Title Verification', () => {
       cy.visit('https://continous-integration.onrender.com');
   
       // Verifica que el título de la página sea el esperado
-      cy.title().should('eq', 'Duende');
+      cy.title().should('eq', 'Suma de Números');
     });
   });
   
