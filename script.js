@@ -1,4 +1,4 @@
-function sum(num1, num2) {
+export default function sum(num1, num2) {
     num1 = parseFloat(num1);
     num2 = parseFloat(num2);
     if (isNaN(num1) || isNaN(num2)) {
@@ -16,5 +16,3 @@ function sumar() {
     document.getElementById('resultado').innerText = result;
 }
 
-
-export default sum
