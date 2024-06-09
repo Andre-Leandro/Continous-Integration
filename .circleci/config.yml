@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   slack: circleci/slack@4.3.2
   sonarcloud: sonarsource/sonarcloud@2.0.0
+  saucectl: saucelabs/saucectl-run@3.0.0
 
 jobs:
   lint:
@@ -84,6 +85,16 @@ jobs:
             curl -X POST -H 'Content-type: application/json' --data '{"text":"¡Ha fallado el Deploy!"}' "$SLACK_WEBHOOK_URL"
             exit 1
           fi
+
+  test-cypress:
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.2
+      - saucectl/saucectl-run:
+      
 
 workflows:
   version: 2

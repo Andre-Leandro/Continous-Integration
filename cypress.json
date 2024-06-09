@@ -1,0 +1,6 @@
+{
+    "baseUrl": "https://continous-integration.onrender.com/",
+    "integrationFolder": "cypress/integration",
+    "testFiles": "**/*.spec.js"
+  }
+  
