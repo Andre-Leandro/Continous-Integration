@@ -10,13 +10,13 @@ sauce:
     build: "build-1234"
 rootDir: ./cypress
 cypress:
-  version: 13.10.0
+  version: 13.11.0
   configFile: cypress.json
 suites:
   - name: "Pruebas Automatizadas"
-    browser: chrome
+    browser: firefox
     config:
-      platformName: Windows 10
+      platformName: Windows 11
       browserVersion: latest
       testFiles:
         - "/*.spec.js"
