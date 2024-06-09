@@ -3,7 +3,6 @@ version: 2.1
 orbs:
   slack: circleci/slack@4.3.2
   sonarcloud: sonarsource/sonarcloud@2.0.0
-  saucectl: saucelabs/saucectl-run@3.0.0
 
 jobs:
   lint:
@@ -86,14 +85,17 @@ jobs:
             exit 1
           fi
 
-  test-cypress:
+ test-production:
     docker:
-      - image: cimg/node:lts
+      - image: cypress/base
     steps:
       - checkout
-      - setup_remote_docker:
-          version: default
-      - saucectl/saucectl-run
+      - run:
+          name: Instalar dependencias
+          command: npm install
+      - run:
+          name: Ejecutar pruebas de Cypress
+          command: npx cypress run
 
 workflows:
   version: 2

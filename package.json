@@ -14,6 +14,7 @@
     },
     "devDependencies": {
         "htmlhint": "^1.1.4",
-        "jsdom": "^24.1.0"
+        "jsdom": "^24.1.0",
+        "cypress": "^13.11.0"
     }
 }

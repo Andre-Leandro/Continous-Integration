@@ -1,6 +1,0 @@
-{
-    "baseUrl": "https://continous-integration.onrender.com",
-    "integrationFolder": "./",
-    "testFiles": "title_spec.js"
-}
-  
