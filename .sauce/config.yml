@@ -13,7 +13,7 @@ cypress:
   version: 13.10.0
   configFile: cypress.json
 suites:
-  - name: "Example Suite"
+  - name: "Pruebas Automatizadas"
     browser: chrome
     config:
       platformName: Windows 10
