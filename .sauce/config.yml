@@ -10,7 +10,7 @@ sauce:
     build: "build-1234"
 rootDir: ./cypress
 cypress:
-  version: 9.7.0
+  version: 13.10.0
   configFile: cypress.json
 suites:
   - name: "Example Suite"
