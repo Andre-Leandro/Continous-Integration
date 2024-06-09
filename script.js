@@ -15,3 +15,6 @@ function sumar() {
     var result = sum(num1, num2);
     document.getElementById('resultado').innerText = result;
 }
+
+
+export default sum
