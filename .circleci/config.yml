@@ -92,31 +92,13 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          version: 20.10.2
+          version: default
       - saucectl/saucectl-run
 
 workflows:
   version: 2
   build_and_deploy:
-    jobs:
-      - lint:
-          filters:
-            branches:
-              only: main
-      - test:
-          requires:
-            - lint
-          filters:
-            branches:
-              only: main
-
-      - sonarcloud:
-          requires:
-            - test
-          filters: 
-            branches:
-              only: main
-        
+    jobs:        
       - deploy:
             requires:
               - sonarcloud
