@@ -7,7 +7,8 @@ export default [
       globals: {
         browser: true,
         es2021: true,
-        document: 'readonly',  // Añadir la global 'document'
+        document: 'readonly',
+        window: 'readonly',  // Añadir la global 'document'
       }
     },
     rules: {

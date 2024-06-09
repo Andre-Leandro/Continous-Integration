@@ -136,9 +136,11 @@ workflows:
             branches:
               only: main        
       - deploy:
-            filters:
-              branches:
-                only: main
+          requires:
+            - sonarcloud
+          filters:
+             branches:
+              only: main
       - test-deploy:
             requires:
               - deploy

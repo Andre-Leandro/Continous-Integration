@@ -1,5 +1,5 @@
 import { strictEqual } from 'assert';
-import sum from '../script.js';
+import sum from '../script2.js';
 
 describe('Función sumar()', () => {
     it('debería devolver la suma de dos números', () => {
