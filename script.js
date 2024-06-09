@@ -1,5 +1,5 @@
 // script.js
-import { sum } from 'script2.js';
+import { sum } from '/script2.js';
 
 
 function sumar() {
