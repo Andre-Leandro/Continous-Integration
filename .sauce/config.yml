@@ -10,7 +10,7 @@ sauce:
     build: "build-1234"
 rootDir: ./cypress
 cypress:
-  version: 9.0.0
+  version: 9.7.0
   configFile: cypress.json
 suites:
   - name: "Example Suite"
@@ -18,3 +18,5 @@ suites:
     config:
       platformName: Windows 10
       browserVersion: latest
+      testFiles: "cypress/*.spec.js"
+
