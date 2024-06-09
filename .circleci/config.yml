@@ -91,7 +91,7 @@ jobs:
             while [ "$deploy_status" != "live" ]; do
               response=$(curl -s -H "Authorization: Bearer $RENDER_API_KEY "https://api.render.com/v1/services/srv-cpdr55n109ks73em4ecg/deploys")
               echo "Render API response: $response"
-              deploy_status=$(echo $response | jq -r '.[0].deploy.status') # Se toma el estado del primer despliegue en la lista
+              deploy_status=$(echo $response | jq -r '.[0].deploy.status') 
               echo "Current deploy status: $deploy_status"
               if [ "$deploy_status" == "failed" ]; then
                 echo "Deployment failed."
