@@ -93,8 +93,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 20.10.2
-      - saucectl/saucectl-run:
-      
+      - saucectl/saucectl-run
 
 workflows:
   version: 2
@@ -121,6 +120,12 @@ workflows:
       - deploy:
             requires:
               - sonarcloud
+            filters:
+              branches:
+                only: main
+      - test-cypress:
+            requires:
+              - deploy
             filters:
               branches:
                 only: main
