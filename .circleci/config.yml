@@ -85,7 +85,7 @@ jobs:
             exit 1
           fi
 
- test-production:
+  test-production:
     docker:
       - image: cypress/base
     steps:
@@ -105,7 +105,7 @@ workflows:
             filters:
               branches:
                 only: main
-      - test-cypress:
+      - test-production:
             requires:
               - deploy
             filters:
