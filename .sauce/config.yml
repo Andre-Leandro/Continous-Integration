@@ -1,18 +1,20 @@
 apiVersion: v1alpha
 kind: cypress
+framework: cypress
 sauce:
   region: us-west-1
   metadata:
-    name: Cypress Test Example
     tags:
       - e2e
       - release
     build: "build-1234"
 rootDir: ./cypress
 cypress:
+  version: 9.0.0
   configFile: cypress.json
 suites:
   - name: "Example Suite"
-    specPattern: "cypress/*.spec.js"
-    env:
-      someEnvVar: "value"
+    browser: chrome
+    config:
+      platformName: Windows 10
+      browserVersion: latest
