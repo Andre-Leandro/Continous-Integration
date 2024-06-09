@@ -16,7 +16,7 @@ suites:
   - name: "Pruebas Automatizadas"
     browser: firefox
     config:
-      platformName: Windows 11
+      platformName: linux
       browserVersion: latest
       testFiles:
         - "/*.spec.js"
