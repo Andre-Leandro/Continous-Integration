@@ -25,7 +25,7 @@ jobs:
           name: Ejecutar pruebas
           command: npx mocha test/test.js
       - slack/notify:
-          channel: general
+          channel: test
           event: pass
           custom: |
             {
@@ -64,7 +64,7 @@ jobs:
               ]
             }
       - slack/notify:
-          channel: general
+          channel: test
           event: fail
           custom: |
             {
