@@ -4,7 +4,7 @@
     "type": "module",
     "scripts": {
         "test": "mocha",
-        "lint": "eslint .",
+        "lint": "eslint -c linter/eslint.config.js",
         "lint:html": "htmlhint ./*.html",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run"
