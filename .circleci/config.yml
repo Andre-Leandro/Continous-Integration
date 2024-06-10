@@ -57,7 +57,7 @@ jobs:
                       "text": "*Branch:*\n$CIRCLE_BRANCH"
                     }
                   ]
-                }
+                },
                 {
                     "type": "divider"
                   }
@@ -96,7 +96,7 @@ jobs:
                       "text": "*Branch:*\n$CIRCLE_BRANCH"
                     }
                   ]
-                }
+                },
                 {
                     "type": "divider"
                   }
@@ -213,7 +213,7 @@ jobs:
                       "text": "*Branch:*\n$CIRCLE_BRANCH"
                     }
                   ]
-                }
+                },
                 {
                     "type": "divider"
                   }
