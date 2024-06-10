@@ -10,7 +10,7 @@ jobs:
       - image: cimg/node:18.20.3
     steps:
       - checkout
-      - run: npm install
+      - run: npm install eslint
       - run: npm run lint
       - run: npm run lint:html
   test:
@@ -19,8 +19,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Instalar Mocha y Chai
-          command: npm install mocha chai
+          name: Instalar Mocha 
+          command: npm install mocha 
       - run:
           name: Ejecutar pruebas
           command: npx mocha test/test.js
@@ -108,7 +108,8 @@ jobs:
       - image: node:latest
     steps:
       - checkout
-      - run: npm install
+      - run: npm install mocha
+      - run: npm install nyc
       - run:
           name: Prueba de copiloto 
           command: npm run coverage
