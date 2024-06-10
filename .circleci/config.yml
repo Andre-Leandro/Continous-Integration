@@ -108,6 +108,10 @@ jobs:
       - image: node:latest
     steps:
       - checkout
+      - run: npm install
+      - run:
+          name: Prueba de copiloto 
+          command: npm run coverage
       - sonarcloud/scan
      
   deploy:
