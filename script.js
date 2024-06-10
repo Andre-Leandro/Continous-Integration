@@ -1,6 +1,4 @@
-// script.js
 import  sum  from '/script2.js';
-
 
 function sumar() {
     var num1 = document.getElementById('num1').value;

@@ -13,4 +13,15 @@ describe('Función sumar()', () => {
         strictEqual(sum(2, 'b'), 'Por favor, ingrese dos números válidos.');
         strictEqual(sum('foo', 'bar'), 'Por favor, ingrese dos números válidos.');
     });
+
+    it('debería devolver NaN si se le pasa solo un argumento', () => {
+        strictEqual(sum(5), 'Por favor, ingrese dos números válidos.');
+        strictEqual(sum('2'), 'Por favor, ingrese dos números válidos.');
+    });
+
+    it('debería devolver NaN si se le pasa más de dos argumentos', () => {
+        strictEqual(sum(2, 3, 4), 'Por favor, ingrese dos números válidos.');
+    });
+
+
 });

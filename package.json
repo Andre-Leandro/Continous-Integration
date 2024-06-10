@@ -3,21 +3,23 @@
     "version": "1.0.0",
     "type": "module",
     "scripts": {
-        "test": "mocha",
         "lint": "eslint -c linter/eslint.config.js",
         "lint:html": "htmlhint ./*.html",
         "cypress:open": "cypress open",
-        "cypress:run": "cypress run"
+        "cypress:run": "cypress run",
+        "test": "mocha" ,
+        "coverage": "nyc npm test"
     },
     "dependencies": {
         "chai": "^4.3.4",
-        "eslint": "^9.4.0",
-        "mocha": "^9.1.3"
+        "eslint": "^9.4.0"
     },
     "devDependencies": {
         "@cypress/webpack-batteries-included-preprocessor": "^3.0.3",
         "cypress": "^13.11.0",
         "htmlhint": "^1.1.4",
+        "mocha": "^10.4.0",
+        "nyc": "^17.0.0",
         "webpack": "^5.91.0"
     }
 }
