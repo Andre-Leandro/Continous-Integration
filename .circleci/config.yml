@@ -52,6 +52,9 @@ jobs:
                       "text": "*Branch:*\n$CIRCLE_BRANCH"
                     }
                   ]
+                },
+                {
+                  "type": "divider"
                 }
               ]
             }
@@ -73,7 +76,7 @@ jobs:
           channel: general
           event: pass
           template: basic_success
-          custom: '{"text":"El *linter* ha pasado :white_check_mark:"}'
+          custom: '{"text":"El *linter* ha pasado. :white_check_mark:"}'
 
   test:
     docker:
@@ -93,7 +96,7 @@ jobs:
           channel: general
           event: pass
           template: basic_success
-          custom: '{"text":"Las *pruebas* han pasado :white_check_mark:"}'
+          custom: '{"text":"Las *pruebas* han pasado. :white_check_mark:"}'
 
       
   sonarcloud:
@@ -123,7 +126,7 @@ jobs:
           channel: general
           event: pass
           template: basic_success
-          custom: '{"text":"Se ha pasado el análisis de SonarCloud :white_check_mark:"}'
+          custom: '{"text":"Se ha pasado el análisis de SonarCloud. :white_check_mark:"}'
      
   deploy:
     docker:
@@ -134,7 +137,7 @@ jobs:
           response=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://api.render.com/deploy/srv-cpdr55n109ks73em4ecg?key=0m-6SGBdA7I")
           if [ $response -eq 200 ]; then
             echo "Deployment successful"
-            SLACK_MESSAGE="Deploy iniciado correctamente :gear: "
+            SLACK_MESSAGE="El deploy ha iniciado correctamente. :gear: "
           else
             echo "Deployment failed with HTTP status code $response"
             SLACK_MESSAGE="¡La petición de deploy ha fallado! :x:"
@@ -171,7 +174,7 @@ jobs:
           channel: general
           event: pass
           template: basic_success
-          custom: '{"text":"El *deploy* fue completado con éxito :white_check_mark:"}'
+          custom: '{"text":"El *deploy* fue completado con éxito. :white_check_mark:"}'
 
   test-deploy:
     docker:
@@ -193,7 +196,7 @@ jobs:
           channel: general
           event: pass
           template: basic_success
-          custom: '{"text":"Las pruebas sobre el deploy han pasado :white_check_mark:"}'
+          custom: '{"text":"Las pruebas sobre el deploy han pasado. :white_check_mark:"}'
 
 workflows:
   version: 2
