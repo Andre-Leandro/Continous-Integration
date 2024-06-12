@@ -184,7 +184,7 @@ jobs:
       - run:
           name: Ejecutar pruebas de Cypress
           command: npx cypress run
-          - slack/notify:
+      - slack/notify:
           channel: general
           event: fail
           template: basic_failed
