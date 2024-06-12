@@ -23,6 +23,9 @@ jobs:
             {
               "blocks": [
                 {
+                    "type": "divider"
+                  },
+                {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
@@ -99,7 +102,7 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: npm run coverage
+      - run: npm run test
       - sonarcloud/scan
       - run:
           name: Verificar calidad de SonarCloud
