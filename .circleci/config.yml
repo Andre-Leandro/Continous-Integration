@@ -16,7 +16,7 @@ jobs:
             export COMMIT_MSG=$(git log -1 --pretty=%B)
             echo "export COMMIT_MSG='$COMMIT_MSG'" >> $BASH_ENV
       - slack/notify:
-          channel: facultad
+          channel: general
           event: always
           template: custom
           custom: |
@@ -191,6 +191,7 @@ workflows:
             branches:
               only: main
       - sonarcloud:
+          context: SonarCloud
           requires:
             - test
           filters: 
