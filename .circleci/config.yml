@@ -16,7 +16,7 @@ jobs:
             export COMMIT_MSG=$(git log -1 --pretty=%B)
             echo "export COMMIT_MSG='$COMMIT_MSG'" >> $BASH_ENV
       - slack/notify:
-          channel: general
+          channel: facultad
           event: always
           template: custom
           custom: |
@@ -51,6 +51,8 @@ jobs:
                   ]
                 }
               ]
+            }
+
   lint:
     docker:
       - image: cimg/node:18.20.3
