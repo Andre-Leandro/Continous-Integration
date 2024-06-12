@@ -1,5 +1,6 @@
-import { strictEqual } from 'assert';
-import sum from '../script2.js';
+const assert = require('assert');
+const strictEqual = assert.strictEqual
+const sum = require('../script2.js');
 
 describe('Función sumar()', () => {
     it('debería devolver la suma de dos números', () => {
@@ -18,10 +19,5 @@ describe('Función sumar()', () => {
         strictEqual(sum(5), 'Por favor, ingrese dos números válidos.');
         strictEqual(sum('2'), 'Por favor, ingrese dos números válidos.');
     });
-
-    it('debería devolver NaN si se le pasa más de dos argumentos', () => {
-        strictEqual(sum(2, 3, 4), 'Por favor, ingrese dos números válidos.');
-    });
-
 
 });

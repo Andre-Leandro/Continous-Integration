@@ -1,24 +1,36 @@
 {
     "name": "my-project",
     "version": "1.0.0",
-    "type": "module",
     "scripts": {
         "lint": "eslint -c linter/eslint.config.js",
         "lint:html": "htmlhint ./*.html",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
-        "test": "mocha" ,
-        "coverage": "nyc npm test"
+        "test": "nyc mocha"
+    },
+    "nyc": {
+        "reporter": [
+            "html",
+            "text",
+            "lcov"
+        ],
+        "report-dir": "./coverage",
+        "include": [
+            "script2.js"
+        ],
+        "exclude": [
+            "node_modules",
+            "test"
+        ]
     },
     "dependencies": {
-        "eslint": "^9.4.0"
+        "eslint": "^9.4.0",
+        "mocha": "^10.4.0",
+        "nyc": "^17.0.0"
     },
     "devDependencies": {
         "@cypress/webpack-batteries-included-preprocessor": "^3.0.3",
         "cypress": "^13.11.0",
-        "htmlhint": "^1.1.4",
-        "mocha": "^10.4.0",
-        "nyc": "^17.0.0",
-        "webpack": "^5.91.0"
+        "htmlhint": "^1.1.4"
     }
 }

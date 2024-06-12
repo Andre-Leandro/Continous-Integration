@@ -5,115 +5,120 @@ orbs:
   sonarcloud: sonarsource/sonarcloud@2.0.0
 
 jobs:
+  notify-start:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: Obtener el mensaje del commit
+          command: |
+            export COMMIT_MSG=$(git log -1 --pretty=%B)
+            echo "export COMMIT_MSG='$COMMIT_MSG'" >> $BASH_ENV
+      - slack/notify:
+          channel: general
+          event: always
+          template: custom
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "Se ha iniciado un nuevo trabajo en CircleCI."
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Usuario:*\n$CIRCLE_USERNAME"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Repositorio:*\n$CIRCLE_PROJECT_REPONAME"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Commit:*\n$COMMIT_MSG"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n$CIRCLE_BRANCH"
+                    }
+                  ]
+                }
+              ]
   lint:
     docker:
       - image: cimg/node:18.20.3
     steps:
       - checkout
-      - run: npm install eslint
+      - run: npm install
       - run: npm run lint
       - run: npm run lint:html
+      - slack/notify:
+          channel: general
+          event: fail
+          template: basic_failed
+          custom: '{"text":"Lint ha fallado! :x:"}'
+      - slack/notify:
+          channel: general
+          event: pass
+          template: basic_success
+          custom: '{"text":"Lint ha pasado! :white_check_mark:"}'
+
   test:
     docker:
       - image: cimg/node:18.20.3
     steps:
       - checkout
       - run:
-          name: Instalar Mocha 
-          command: npm install mocha 
-      - run:
-          name: Ejecutar pruebas
-          command: npx mocha test/test.js
+          name: Instalar Mocha y Chai
+          command: npm install
+      - run: npm run test
       - slack/notify:
-          channel: test
-          event: pass
-          custom: |
-            {
-                  "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*TEST EXITOSO* :white_check_mark:"
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Usuario:*\n$CIRCLE_USERNAME"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Repositorio:*\n$CIRCLE_PROJECT_REPONAME"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Commit:*\n$CIRCLE_SHA1"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch:*\n$CIRCLE_BRANCH"
-                    }
-                  ]
-                },
-                {
-                    "type": "divider"
-                  }
-              ]
-            }
-      - slack/notify:
-          channel: test
+          channel: general
           event: fail
-          custom: |
-            {
-                  "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*TEST FALLIDO* :no_entry:"
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Usuario:*\n$CIRCLE_USERNAME"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Repositorio:*\n$CIRCLE_PROJECT_REPONAME"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Commit:*\n$CIRCLE_SHA1"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch:*\n$CIRCLE_BRANCH"
-                    }
-                  ]
-                },
-                {
-                    "type": "divider"
-                  }
-              ]
-            }
+          template: basic_failed
+          custom: '{"text":"Las pruebas han fallado! :x:"}'
+      - slack/notify:
+          channel: general
+          event: pass
+          template: basic_success
+          custom: '{"text":"Las pruebas han pasado! :white_check_mark:"}'
+
       
   sonarcloud:
     docker:
-      - image: node:latest
+      - image: cimg/node:18.20.3
     steps:
       - checkout
-      - run: npm install mocha
-      - run: npm install nyc
-      - run:
-          name: Prueba de copiloto 
-          command: npm run coverage
+      - run: npm install
+      - run: npm run coverage
       - sonarcloud/scan
+      - run:
+          name: Verificar calidad de SonarCloud
+          command: |
+            STATUS=$(curl -s -u $SONAR_TOKEN: "https://sonarcloud.io/api/qualitygates/project_status?projectKey=$SONAR_PROJECT_KEY" | jq -r '.projectStatus.status')
+            if [ "$STATUS" != "OK" ]; then
+              echo "Quality gate failed: $STATUS"
+              exit 1  
+            else 
+              echo "Quality gate passed: $STATUS"
+            fi
+      - slack/notify:
+          channel: general
+          event: fail
+          template: basic_failed
+          custom: '{"text":"No se ha pasado el análisis de SonarCloud! :x:"}'
+      - slack/notify:
+          channel: general
+          event: pass
+          template: basic_success
+          custom: '{"text":"Se ha pasado el análisis de SonarCloud! :white_check_mark:"}'
      
   deploy:
     docker:
@@ -148,82 +153,14 @@ jobs:
             echo "Deployment completed successfully."
       - slack/notify:
           channel: general
-          event: pass
-          custom: |
-            {
-                "blocks": [
-                  {
-                    "type": "section",
-                    "text": {
-                      "type": "mrkdwn",
-                      "text": "*DEPLOY EXITOSO* :white_check_mark:"
-                    }
-                  },
-                  {
-                    "type": "section",
-                    "fields": [
-                      {
-                        "type": "mrkdwn",
-                        "text": "*Usuario:*\n$CIRCLE_USERNAME"
-                      },
-                      {
-                        "type": "mrkdwn",
-                        "text": "*Repositorio:*\n$CIRCLE_PROJECT_REPONAME"
-                      },
-                      {
-                        "type": "mrkdwn",
-                        "text": "*Commit:*\n$CIRCLE_SHA1"
-                      },
-                      {
-                        "type": "mrkdwn",
-                        "text": "*Branch:*\n$CIRCLE_BRANCH"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "divider"
-                  }
-                ]
-            }
+          event: fail
+          template: basic_failed
+          custom: '{"text":"El deploy ha fallado! :x:"}'
       - slack/notify:
           channel: general
-          event: fail
-          custom: |
-            {
-                  "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*DEPLOY FALLIDO* :no_entry:"
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Usuario:*\n$CIRCLE_USERNAME"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Repositorio:*\n$CIRCLE_PROJECT_REPONAME"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Commit:*\n$CIRCLE_SHA1"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch:*\n$CIRCLE_BRANCH"
-                    }
-                  ]
-                },
-                {
-                    "type": "divider"
-                  }
-              ]
-            }
+          event: pass
+          template: basic_success
+          custom: '{"text":"Deploy completado con éxito! :white_check_mark:"}'
 
   test-deploy:
     docker:
@@ -241,10 +178,10 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
+      - notify-start
       - lint:
-          filters:
-            branches:
-              only: main
+          requires:
+            - notify-start
       - test:
           requires:
             - lint
