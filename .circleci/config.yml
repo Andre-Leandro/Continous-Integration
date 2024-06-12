@@ -68,12 +68,12 @@ jobs:
           channel: general
           event: fail
           template: basic_failed
-          custom: '{"text":"Lint ha fallado! :x:"}'
+          custom: '{"text":"¡El *linter* ha fallado! :x:"}'
       - slack/notify:
           channel: general
           event: pass
           template: basic_success
-          custom: '{"text":"Lint ha pasado! :white_check_mark:"}'
+          custom: '{"text":"El *linter* ha pasado :white_check_mark:"}'
 
   test:
     docker:
@@ -88,12 +88,12 @@ jobs:
           channel: general
           event: fail
           template: basic_failed
-          custom: '{"text":"Las pruebas han fallado! :x:"}'
+          custom: '{"text":"¡Las *pruebas* han fallado! :x:"}'
       - slack/notify:
           channel: general
           event: pass
           template: basic_success
-          custom: '{"text":"Las pruebas han pasado! :white_check_mark:"}'
+          custom: '{"text":"Las *pruebas* han pasado :white_check_mark:"}'
 
       
   sonarcloud:
@@ -118,12 +118,12 @@ jobs:
           channel: general
           event: fail
           template: basic_failed
-          custom: '{"text":"No se ha pasado el análisis de SonarCloud! :x:"}'
+          custom: '{"text":"¡No se ha pasado el análisis de SonarCloud! :x:"}'
       - slack/notify:
           channel: general
           event: pass
           template: basic_success
-          custom: '{"text":"Se ha pasado el análisis de SonarCloud! :white_check_mark:"}'
+          custom: '{"text":"Se ha pasado el análisis de SonarCloud :white_check_mark:"}'
      
   deploy:
     docker:
@@ -134,12 +134,18 @@ jobs:
           response=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://api.render.com/deploy/srv-cpdr55n109ks73em4ecg?key=0m-6SGBdA7I")
           if [ $response -eq 200 ]; then
             echo "Deployment successful"
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"Deploy Iniciado correctamente."}' $SLACK_WEBHOOK_URL
+            SLACK_MESSAGE="Deploy iniciado correctamente :gear: "
           else
             echo "Deployment failed with HTTP status code $response"
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"¡Ha fallado al intentar realizar el Deploy!"}' "$SLACK_WEBHOOK_URL"
+            SLACK_MESSAGE="¡La petición de deploy ha fallado! :x:"
             exit 1
           fi
+          echo "export SLACK_MESSAGE='$SLACK_MESSAGE'" >> $BASH_ENV
+      - slack/notify:
+          channel: general
+          event: always
+          template: custom
+          custom: '{"text":"$SLACK_MESSAGE"}'
       - run:
           name: Esperar a que el deploy se complete
           command: |
@@ -160,12 +166,12 @@ jobs:
           channel: general
           event: fail
           template: basic_failed
-          custom: '{"text":"El deploy ha fallado! :x:"}'
+          custom: '{"text":"¡El *deploy* ha fallado! :x:"}'
       - slack/notify:
           channel: general
           event: pass
           template: basic_success
-          custom: '{"text":"Deploy completado con éxito! :white_check_mark:"}'
+          custom: '{"text":"El *deploy* fue completado con éxito :white_check_mark:"}'
 
   test-deploy:
     docker:
@@ -178,6 +184,16 @@ jobs:
       - run:
           name: Ejecutar pruebas de Cypress
           command: npx cypress run
+          - slack/notify:
+          channel: general
+          event: fail
+          template: basic_failed
+          custom: '{"text":"¡Las pruebas sobre el deploy han fallado! :x:"}'
+      - slack/notify:
+          channel: general
+          event: pass
+          template: basic_success
+          custom: '{"text":"Las pruebas sobre el deploy han pasado :white_check_mark:"}'
 
 workflows:
   version: 2
