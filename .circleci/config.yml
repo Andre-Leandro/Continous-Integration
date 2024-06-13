@@ -40,7 +40,7 @@ jobs:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "prueba unitaria"
+                      "text": "*Commit:*\n$CIRCLE_SHA1"
                     },
                     {
                       "type": "mrkdwn",
