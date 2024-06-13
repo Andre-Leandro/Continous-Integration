@@ -19,45 +19,8 @@ jobs:
           channel: general
           event: always
           template: custom
-          custom: |
-            {
-              "blocks": [
-                {
-                    "type": "divider"
-                  },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "Se ha iniciado un nuevo trabajo en CircleCI."
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Usuario:*\n$CIRCLE_USERNAME"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Repositorio:*\n$CIRCLE_PROJECT_REPONAME"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Commit:*\n$COMMIT_MSG"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch:*\n$CIRCLE_BRANCH"
-                    }
-                  ]
-                },
-                {
-                  "type": "divider"
-                }
-              ]
-            }
+          custom: '{"text":"Se inicio la tareas e main:"}'
+
 
   lint:
     docker:
