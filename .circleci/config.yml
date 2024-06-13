@@ -212,9 +212,6 @@ workflows:
       - test:
           requires:
             - lint
-          filters:
-            branches:
-              only: main
       - sonarcloud:
           context: SonarCloud
           requires:
