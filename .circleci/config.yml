@@ -10,16 +10,49 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      - run:
-          name: Obtener el mensaje del commit
-          command: |
-            export COMMIT_MSG=$(git log -1 --pretty=%B)
-            echo "export COMMIT_MSG='$COMMIT_MSG'" >> $BASH_ENV
       - slack/notify:
           channel: general
           event: always
           template: custom
-          custom: '{"text":"Se inicio la tareas e main:"}'
+          custom: |
+            {
+              "blocks": [
+                {
+                    "type": "divider"
+                  },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "Se ha iniciado un nuevo trabajo en CircleCI."
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Usuario:*\n$CIRCLE_USERNAME"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Repositorio:*\n$CIRCLE_PROJECT_REPONAME"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "prueba unitaria"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n$CIRCLE_BRANCH"
+                    }
+                  ]
+                },
+                {
+                  "type": "divider"
+                }
+              ]
+            }
 
 
   lint:
