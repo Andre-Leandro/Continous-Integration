@@ -5,7 +5,7 @@ function sum(num1, num2) {
       return 'Por favor, ingrese dos números válidos.';
     } else {
       let suma = num1 + num2;
-      return 'La suma es: ' + (suma+1);
+      return 'La suma es: ' + suma;
     }
   }
   
